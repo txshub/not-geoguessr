@@ -1,26 +1,17 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import './App.scss'
+import StreetView from '../src/components/StreetView/streetView'
+import { Typography, Container } from '@material-ui/core'
 
-function App() {
+function App () {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <Typography className='typography' align='center' variant='h2'>Not Geoguessr</Typography>
+      <Container className='main-container' maxWidth='lg'>
+        <StreetView />
+      </Container>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
