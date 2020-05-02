@@ -1,9 +1,9 @@
 .App {
-  .typography {
-    margin: 50px;
-  }
-
-  .main-container {
+  .Container {
     height: 70vh;
+    margin-top: 40px;
+  }
+  .Typography {
+    flex-grow: 1;
   }
 }
