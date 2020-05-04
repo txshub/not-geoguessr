@@ -5,8 +5,13 @@ import { Dialog, DialogTitle, DialogContent, DialogContentText, TextField, Dialo
 export default function ApiKeyDialog (props) {
   const [fieldText, setFieldText] = useState('')
 
-  const handleOnClick = () => {
+  const handleOnSubmit = () => {
     props.onSubmitApiKey(fieldText)
+  }
+
+  const handleOnDeveloper = () => {
+    setFieldText('')
+    props.onRunInDeveloperMode()
   }
 
   return (
@@ -26,10 +31,10 @@ export default function ApiKeyDialog (props) {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={props.onRunInDeveloperMode}>
+        <Button onClick={handleOnDeveloper}>
           Run in developer mode
         </Button>
-        <Button onClick={handleOnClick} disabled={fieldText.length === 0}>
+        <Button onClick={handleOnSubmit} disabled={fieldText.length === 0}>
           Submit
         </Button>
       </DialogActions>

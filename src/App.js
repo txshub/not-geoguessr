@@ -21,6 +21,7 @@ export default function App () {
   }
 
   const handleDeveloper = () => {
+    setApiKey(null)
     setDeveloperMode(true)
     setApiButtonText(SET_TEXT)
     handleClose()
@@ -40,7 +41,7 @@ export default function App () {
   const game = () => {
     return (
       <Container className='Container' maxWidth='lg'>
-        <StreetView />
+        <StreetView apiKey={apiKey} />
       </Container>
     )
   }
