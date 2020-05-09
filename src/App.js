@@ -1,15 +1,29 @@
 import React, { useState } from 'react'
-import './App.scss'
+import { LoadScript } from '@react-google-maps/api'
 import StreetView from '../src/components/StreetView/streetView'
+import SelectionMap from '../src/components/SelectionMap/selectionMap'
 import ApiKeyDialogOpen from '../src/components/ApiKeyDialog/apiKeyDialog'
-import { Typography, Container, AppBar, Toolbar, Button } from '@material-ui/core'
+import { Typography, Toolbar, Button, Drawer } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 
 const SET_TEXT = 'Set Api Key'
 const CHANGE_TEXT = 'Change Api Key'
 
+const useStyles = makeStyles({
+  drawer: {
+    display: 'flex'
+  },
+  typography: {
+    flexGrow: 1
+  }
+})
+
 export default function App () {
+  const classes = useStyles()
+
   const [apiKey, setApiKey] = useState(null)
   const [apiKeyDialogOpen, setApiKeyDialogOpen] = useState(true)
+  const [drawerOpen, setDrawerOpen] = useState(false)
   const [developerMode, setDeveloperMode] = useState(true)
   const [apiButtonText, setApiButtonText] = useState(SET_TEXT)
 
@@ -38,22 +52,28 @@ export default function App () {
     setApiKeyDialogOpen(true)
   }
 
+  const toggleDrawer = (open) => () => {
+    setDrawerOpen(open)
+  }
+
   const game = () => {
     return (
-      <Container className='Container' maxWidth='lg'>
-        <StreetView apiKey={apiKey} />
-      </Container>
+      <LoadScript id='script-loader' googleMapsApiKey={apiKey}>
+        <StreetView />
+        <SelectionMap />
+      </LoadScript>
     )
   }
 
   return (
     <div className='App'>
-      <AppBar position='static'>
+      <Button onClick={toggleDrawer(true)} color='inherit'>Drawer</Button>
+      <Drawer className={classes.drawer} anchor='top' open={drawerOpen} onClose={toggleDrawer(false)}>
         <Toolbar>
-          <Typography className='Typography' variant='h4'>Not Geoguessr</Typography>
+          <Typography className={classes.typography} variant='h4'>Not Geoguessr</Typography>
           <Button onClick={openApiKeyDialog} color='inherit'>{apiButtonText}</Button>
         </Toolbar>
-      </AppBar>
+      </Drawer>
       {(developerMode || apiKey) && !apiKeyDialogOpen && game()}
       <ApiKeyDialogOpen
         apiKey={apiKey}
