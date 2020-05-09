@@ -9,7 +9,7 @@ const useStyles = makeStyles({
     position: 'absolute',
     right: 0,
     bottom: 0,
-    opacity: '60%',
+    opacity: '50%',
     border: 'solid',
     borderColor: 'rgba(0, 0, 0, 0.8)',
     transition: 'all .2s linear',
@@ -17,7 +17,7 @@ const useStyles = makeStyles({
       height: '500px',
       width: '500px',
       opacity: '100%',
-      borderColor: 'rgba(0, 0, 0, 0.8)'
+      borderColor: 'rgba(0, 0, 0, 1)'
     }
   }
 })

@@ -3,8 +3,8 @@ import { LoadScript } from '@react-google-maps/api'
 import StreetView from '../src/components/StreetView/streetView'
 import SelectionMap from '../src/components/SelectionMap/selectionMap'
 import ApiKeyDialogOpen from '../src/components/ApiKeyDialog/apiKeyDialog'
-import { Typography, Toolbar, Button, Drawer } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { Typography, Toolbar, Button, SwipeableDrawer, makeStyles } from '@material-ui/core'
+import { ExpandMore } from '@material-ui/icons'
 
 const SET_TEXT = 'Set Api Key'
 const CHANGE_TEXT = 'Change Api Key'
@@ -15,6 +15,18 @@ const useStyles = makeStyles({
   },
   typography: {
     flexGrow: 1
+  },
+  drawerButton: {
+    position: 'absolute',
+    left: '50%',
+    padding: '0px',
+    zIndex: 1300,
+    marginTop: '20px',
+    opacity: '70%',
+    transition: '0.2s',
+    '&:hover': {
+      opacity: '100%'
+    }
   }
 })
 
@@ -67,13 +79,27 @@ export default function App () {
 
   return (
     <div className='App'>
-      <Button onClick={toggleDrawer(true)} color='inherit'>Drawer</Button>
-      <Drawer className={classes.drawer} anchor='top' open={drawerOpen} onClose={toggleDrawer(false)}>
+      <Button
+        className={classes.drawerButton}
+        onClick={toggleDrawer(true)}
+        color='inherit'
+        variant='contained'
+      >
+        <ExpandMore />
+      </Button>
+      <SwipeableDrawer
+        className={classes.drawer}
+        anchor='top'
+        open={drawerOpen}
+        onClose={toggleDrawer(false)}
+        onOpen={toggleDrawer(true)}
+        swipeAreaWidth={50}
+      >
         <Toolbar>
           <Typography className={classes.typography} variant='h4'>Not Geoguessr</Typography>
           <Button onClick={openApiKeyDialog} color='inherit'>{apiButtonText}</Button>
         </Toolbar>
-      </Drawer>
+      </SwipeableDrawer>
       {(developerMode || apiKey) && !apiKeyDialogOpen && game()}
       <ApiKeyDialogOpen
         apiKey={apiKey}
