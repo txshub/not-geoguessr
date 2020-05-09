@@ -18,12 +18,18 @@ const useStyles = makeStyles({
   },
   drawerButton: {
     position: 'absolute',
-    left: '50%',
+    width: 'fit-content',
+    left: 0,
+    right: 0,
+    marginLeft: 'auto',
+    marginRight: 'auto',
     padding: '0px',
     zIndex: 1300,
-    marginTop: '20px',
     opacity: '70%',
     transition: '0.2s',
+    '@media (pointer: coarse), (hover: none)': {
+      zIndex: 2
+    },
     '&:hover': {
       opacity: '100%'
     }
