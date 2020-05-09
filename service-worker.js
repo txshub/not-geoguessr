@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/not-geoguessr/precache-manifest.8c3cc31a5950dd2075d9763d1614af53.js"
+  "/not-geoguessr/precache-manifest.8397d9d85dd1b7d417866e96bd66269e.js"
 );
 
 self.addEventListener('message', (event) => {
