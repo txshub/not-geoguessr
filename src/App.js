@@ -5,7 +5,7 @@ import SelectionMap from '../src/components/SelectionMap/selectionMap'
 import DrawerButton from '../src/components/DrawerButton/drawerButton'
 
 export default function App () {
-  const apiKey = 'AIzaSyDQptNBaV52HQeTOzFZLS2-8YWTVv-3Rak'
+  const apiKey = process.env.GOOGLE_MAPS_API_KEY
 
   const game = () => {
     return (
