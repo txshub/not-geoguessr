@@ -1,9 +1,9 @@
-import React from 'react'
-import { GoogleMap } from '@react-google-maps/api'
+import React, { useState, useRef } from 'react'
+import { GoogleMap, Marker } from '@react-google-maps/api'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles({
-  mapCcontainer: {
+  mapContainer: {
     height: '300px',
     width: '300px',
     position: 'absolute',
@@ -22,42 +22,64 @@ const useStyles = makeStyles({
   }
 })
 
+const mapOptions = {
+  disableDefaultUI: true,
+  minZoom: 1,
+  draggableCursor: 'crosshair',
+  restriction: {
+    latLngBounds: {
+      north: 85, // For some reason this is not 90 in google maps
+      south: -85,
+      west: -180,
+      east: 180
+    },
+    strictBounds: false
+  }
+}
+
+const mapContainerStyle = {
+  height: '100%',
+  width: '100%',
+  position: 'absolute',
+  right: '0',
+  bottom: '0',
+  zIndex: '10'
+}
+
 export default function SelectionMap (props) {
   const classes = useStyles()
+  const [selected, setSelected] = useState(false)
+  const [selectedPosition, setSelectedPosition] = useState(null)
 
-  const mapOptions = {
-    disableDefaultUI: true,
-    minZoom: 1,
-    restriction: {
-      latLngBounds: {
-        north: 85, // For some reason this is not 90 in google maps
-        south: -85,
-        west: -180,
-        east: 180
-      },
-      strictBounds: false
+  const googleMap = useRef()
+
+  const handleMapClick = event => {
+    if (!selected) {
+      setSelected(true)
     }
-  }
-
-  const mapContainerStyle = {
-    height: '100%',
-    width: '100%',
-    position: 'absolute',
-    right: '0',
-    bottom: '0',
-    zIndex: '10'
+    setSelectedPosition(event.latLng)
+    googleMap.current.state.map.panTo(event.latLng)
   }
 
   return (
-    <div className={classes.mapCcontainer}>
+    <div className={classes.mapContainer}>
       <GoogleMap
         id='selection-map'
+        ref={googleMap}
         mapContainerStyle={mapContainerStyle}
         zoom={2}
         center={{ lat: 0, lng: 0 }}
         clickableIcons={false}
         options={mapOptions}
-      />
+        onClick={handleMapClick}
+      >
+        <Marker
+          visible={selected}
+          position={selectedPosition}
+          animation={1}
+          clickable={false}
+        />
+      </GoogleMap>
     </div>
   )
 }

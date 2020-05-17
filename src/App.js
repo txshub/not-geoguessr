@@ -10,8 +10,8 @@ export default function App () {
   const game = () => {
     return (
       <LoadScript id='script-loader' googleMapsApiKey={apiKey}>
-        <StreetView apiKey={apiKey} />
-        <SelectionMap apiKey={apiKey} />
+        <StreetView />
+        <SelectionMap />
       </LoadScript>
     )
   }
