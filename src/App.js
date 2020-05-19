@@ -8,7 +8,7 @@ export default function App () {
   // The API key appears in the call to the Google Maps API, and this is something enforced by Google.
   // So hiding it is futile.
   // However, there are restrictions in place for this key.
-  const apiKey = 'AIzaSyAvSjPZw74KA5TCZ_BniFLVxSERndb8S3A'
+  const apiKey = process.env.NGG_API_KEY ? process.env.NGG_API_KEY : 'AIzaSyAvSjPZw74KA5TCZ_BniFLVxSERndb8S3A'
 
   const game = () => {
     return (
