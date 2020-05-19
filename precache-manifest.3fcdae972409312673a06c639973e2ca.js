@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "f8b17841a7e8ffe2a1ada967220c2c54",
+    "revision": "16086b749553e79e4b85d9204900dc52",
     "url": "/not-geoguessr/index.html"
   },
   {
-    "revision": "e79501af522bbbe1f330",
+    "revision": "46007afd73e4df3eed8e",
     "url": "/not-geoguessr/static/css/main.5ecd60fb.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/not-geoguessr/static/js/2.f6a62b8d.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "e79501af522bbbe1f330",
-    "url": "/not-geoguessr/static/js/main.82aa2fc8.chunk.js"
+    "revision": "46007afd73e4df3eed8e",
+    "url": "/not-geoguessr/static/js/main.55761ca3.chunk.js"
   },
   {
     "revision": "f832c1f3f5b071356ea9",
