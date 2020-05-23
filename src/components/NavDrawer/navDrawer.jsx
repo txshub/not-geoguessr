@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { Typography, Toolbar, Button, SwipeableDrawer, makeStyles } from '@material-ui/core'
 import { ExpandMore } from '@material-ui/icons'
 
@@ -29,12 +30,17 @@ const useStyles = makeStyles({
   }
 })
 
-export default function DrawerButton (props) {
+export default function NavDrawer (props) {
   const classes = useStyles()
   const [drawerOpen, setDrawerOpen] = useState(false)
 
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open)
+  }
+
+  const handlePanToInitialLocation = event => {
+    setDrawerOpen(false)
+    props.panToInitialLocation()
   }
 
   return (
@@ -57,8 +63,13 @@ export default function DrawerButton (props) {
       >
         <Toolbar>
           <Typography className={classes.typography} variant='h4'>Not Geoguessr</Typography>
+          <Button onClick={handlePanToInitialLocation}>Go back to initial location</Button>
         </Toolbar>
       </SwipeableDrawer>
     </div>
   )
+}
+
+NavDrawer.propTypes = {
+  panToInitialLocation: PropTypes.func
 }

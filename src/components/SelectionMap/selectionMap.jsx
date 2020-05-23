@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react'
+import PropTypes from 'prop-types'
 import { GoogleMap, Marker } from '@react-google-maps/api'
 import { Button, makeStyles } from '@material-ui/core'
 
@@ -55,7 +56,7 @@ const mapContainerStyle = {
 export default function SelectionMap (props) {
   const classes = useStyles()
   const [selected, setSelected] = useState(false)
-  const [selectedPosition, setSelectedPosition] = useState(null)
+  const [selectedLocation, setSelectedLocation] = useState(null)
 
   const googleMap = useRef()
 
@@ -63,8 +64,12 @@ export default function SelectionMap (props) {
     if (!selected) {
       setSelected(true)
     }
-    setSelectedPosition(event.latLng)
+    setSelectedLocation(event.latLng)
     googleMap.current.state.map.panTo(event.latLng)
+  }
+
+  const handleLocationSelected = event => {
+    props.locationSelected(selectedLocation)
   }
 
   return (
@@ -82,15 +87,23 @@ export default function SelectionMap (props) {
         >
           <Marker
             visible={selected}
-            position={selectedPosition}
+            position={selectedLocation}
             clickable={false}
           />
         </GoogleMap>
       </div>
-      <Button style={{ backgroundColor: 'red' }} disabled={!selected}>Select Location</Button>
+      <Button
+        onClick={handleLocationSelected}
+        style={{ backgroundColor: 'red' }}
+        disabled={!selected}
+      >
+          Select Location
+      </Button>
     </div>
 
   )
 }
 
-SelectionMap.propTypes = {}
+SelectionMap.propTypes = {
+  locationSelected: PropTypes.func
+}
