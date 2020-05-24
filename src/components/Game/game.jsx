@@ -1,38 +1,54 @@
-import React, { useRef } from 'react'
+import React, { Component, createRef } from 'react'
 import StreetView from '../StreetView/streetView'
 import SelectionMap from '../SelectionMap/selectionMap'
 import NavDrawer from '../NavDrawer/navDrawer'
+import ResultDialog from '../ResultDialog/resultDialog'
 
-export default function Game () {
-  const calculateDistance = (location1, location2) => {
-    let distance = window.google.maps.geometry.spherical.computeDistanceBetween(location1, location2)
-    distance = Math.round(distance)
-    return {
-      distance: distance,
-      distanceString: distance >= 1000 ? distance / 1000 + ' km' : distance + ' m'
+export default class Game extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      initialLocation: this.generateLocation()
     }
+    this.streetView = createRef()
+    this.resultDialog = createRef()
   }
 
-  const streetView = useRef()
-  // lat: Math.random() * (90 + 90) - 90,
-  // lng: Math.random() * (180 + 180) - 180
-  const streetViewInitialLocation = new window.google.maps.LatLng(51.072776, -1.313851)
-
-  const handleLocationSelected = selectedLocation => {
-    const { distance, distanceString } = calculateDistance(selectedLocation, streetViewInitialLocation)
-    console.log('The distance is: ' + distance)
-    console.log('The distanceString is: ' + distanceString)
+  generateLocation () {
+    console.log('NEW LOCATION')
+    // lat: Math.random() * (90 + 90) - 90,
+    // lng: Math.random() * (180 + 180) - 180
+    return new window.google.maps.LatLng(51.072776, -1.313851)
   }
 
-  const handlePanToInitialLocation = () => {
-    streetView.current.state.streetViewPanorama.setPosition(streetViewInitialLocation)
+  calculateDistance (location1, location2) {
+    const distance = window.google.maps.geometry.spherical.computeDistanceBetween(location1, location2)
+    return Math.round(distance)
   }
 
-  return (
-    <div>
-      <NavDrawer panToInitialLocation={handlePanToInitialLocation} />
-      <StreetView location={streetViewInitialLocation} streetViewPanoramaRef={streetView} />
-      <SelectionMap locationSelected={handleLocationSelected} />
-    </div>
-  )
+  onLocationSelected (selectedLocation) {
+    const distance = this.calculateDistance(selectedLocation, this.state.initialLocation)
+    this.resultDialog.current.showResult(distance)
+  }
+
+  onPanToInitialLocation () {
+    this.streetView.current.state.streetViewPanorama.setPosition(this.state.initialLocation)
+  }
+
+  onRestart () {
+    this.setState({
+      initialLocation: this.generateLocation()
+    })
+  }
+
+  render () {
+    return (
+      <div>
+        <NavDrawer panToInitialLocation={() => this.onPanToInitialLocation()} />
+        <StreetView location={this.state.initialLocation} streetViewPanoramaRef={this.streetView} />
+        <SelectionMap locationSelected={location => this.onLocationSelected(location)} />
+        <ResultDialog ref={this.resultDialog} restart={() => this.onRestart()} />
+      </div>
+    )
+  }
 }
