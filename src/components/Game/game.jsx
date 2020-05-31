@@ -3,26 +3,29 @@ import StreetView from '../StreetView/streetView'
 import SelectionMap from '../SelectionMap/selectionMap'
 import NavDrawer from '../NavDrawer/navDrawer'
 import ResultDialog from '../ResultDialog/resultDialog'
+import { generateStreetViewLocation } from './game-utils'
 
 export default class Game extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      initialLocation: this.generateLocation()
+      initialLocation: new this.props.googleMapsApi.LatLng(0, 0)
     }
+    this.generateLocation()
     this.streetView = createRef()
     this.resultDialog = createRef()
   }
 
   generateLocation () {
-    console.log('NEW LOCATION')
-    // lat: Math.random() * (90 + 90) - 90,
-    // lng: Math.random() * (180 + 180) - 180
-    return new window.google.maps.LatLng(51.072776, -1.313851)
+    generateStreetViewLocation(this.props.googleMapsApi).then(location => {
+      this.setState({
+        initialLocation: location
+      })
+    })
   }
 
   calculateDistance (location1, location2) {
-    const distance = window.google.maps.geometry.spherical.computeDistanceBetween(location1, location2)
+    const distance = this.props.googleMapsApi.geometry.spherical.computeDistanceBetween(location1, location2)
     return Math.round(distance)
   }
 
@@ -36,9 +39,7 @@ export default class Game extends Component {
   }
 
   onRestart () {
-    this.setState({
-      initialLocation: this.generateLocation()
-    })
+    this.generateLocation()
   }
 
   render () {

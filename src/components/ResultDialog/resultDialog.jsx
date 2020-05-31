@@ -21,7 +21,7 @@ export default class ResultDialog extends Component {
     return distance >= 1000 ? distance / 1000 + ' km' : distance + ' m'
   }
 
-  handleRestart (event) {
+  onRestart (event) {
     this.setState({
       open: false,
       distance: 0
@@ -38,7 +38,7 @@ export default class ResultDialog extends Component {
       >
         <DialogTitle id='alert-dialog-title'>{'You are ' + this.getDistanceString(this.state.distance) + ' off!'}</DialogTitle>
         <DialogActions>
-          <Button onClick={() => this.handleRestart()} color='primary'>
+          <Button onClick={() => this.onRestart()} color='primary'>
             New Round
           </Button>
         </DialogActions>
