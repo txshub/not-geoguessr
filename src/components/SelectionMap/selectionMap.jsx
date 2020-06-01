@@ -1,9 +1,10 @@
-import React, { useState, useRef } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component, createRef } from 'react'
 import { GoogleMap, Marker } from '@react-google-maps/api'
-import { Button, makeStyles } from '@material-ui/core'
+import { Button, withStyles } from '@material-ui/core'
 
-const useStyles = makeStyles({
+const markerIcon = require('../../resources/marker.png')
+
+const useStyles = {
   selectionMap: {
     display: 'flex',
     flexDirection: 'column',
@@ -31,7 +32,7 @@ const useStyles = makeStyles({
     borderColor: 'rgba(0, 0, 0, 1)',
     marginBottom: '3px'
   }
-})
+}
 
 const mapOptions = {
   disableDefaultUI: true,
@@ -53,57 +54,68 @@ const mapContainerStyle = {
   width: '100%'
 }
 
-export default function SelectionMap (props) {
-  const classes = useStyles()
-  const [selected, setSelected] = useState(false)
-  const [selectedLocation, setSelectedLocation] = useState(null)
-
-  const googleMap = useRef()
-
-  const handleMapClick = event => {
-    if (!selected) {
-      setSelected(true)
+class SelectionMap extends Component {
+  constructor (props) {
+    super(props)
+    this.classes = props.classes
+    this.state = {
+      selected: false,
+      selectedLocation: null
     }
-    setSelectedLocation(event.latLng)
-    googleMap.current.state.map.panTo(event.latLng)
+    this.googleMap = createRef()
   }
 
-  const handleLocationSelected = event => {
-    props.locationSelected(selectedLocation)
+  handleMapClick (event) {
+    this.setState({
+      selected: true,
+      selectedLocation: event.latLng
+    })
+    this.googleMap.current.state.map.panTo(event.latLng)
   }
 
-  return (
-    <div className={classes.selectionMap}>
-      <div className={classes.mapContainer}>
-        <GoogleMap
-          id='selection-map'
-          ref={googleMap}
-          mapContainerStyle={mapContainerStyle}
-          zoom={2}
-          center={{ lat: 0, lng: 0 }}
-          clickableIcons={false}
-          options={mapOptions}
-          onClick={handleMapClick}
+  handleLocationSelected () {
+    this.props.locationSelected(this.state.selectedLocation)
+  }
+
+  reset () {
+    this.setState({
+      selected: false,
+      selectedLocation: null
+    })
+  }
+
+  render () {
+    return (
+      <div className={this.classes.selectionMap}>
+        <div className={this.classes.mapContainer}>
+          <GoogleMap
+            id='selection-map'
+            ref={this.googleMap}
+            mapContainerStyle={mapContainerStyle}
+            zoom={2}
+            center={{ lat: 0, lng: 0 }}
+            clickableIcons={false}
+            options={mapOptions}
+            onClick={event => this.handleMapClick(event)}
+          >
+            <Marker
+              visible={this.state.selected}
+              position={this.state.selectedLocation}
+              icon={{ url: markerIcon, scaledSize: { width: 32, height: 32 } }}
+              clickable={false}
+            />
+          </GoogleMap>
+        </div>
+        <Button
+          onClick={() => this.handleLocationSelected()}
+          style={{ backgroundColor: 'red' }}
+          disabled={!this.state.selected}
         >
-          <Marker
-            visible={selected}
-            position={selectedLocation}
-            clickable={false}
-          />
-        </GoogleMap>
-      </div>
-      <Button
-        onClick={handleLocationSelected}
-        style={{ backgroundColor: 'red' }}
-        disabled={!selected}
-      >
           Select Location
-      </Button>
-    </div>
-
-  )
+        </Button>
+      </div>
+    )
+  }
 }
 
-SelectionMap.propTypes = {
-  locationSelected: PropTypes.func
-}
+export default withStyles(useStyles)(SelectionMap)

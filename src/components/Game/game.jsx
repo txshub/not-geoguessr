@@ -1,37 +1,47 @@
 import React, { Component, createRef } from 'react'
+import { Backdrop, CircularProgress, styled } from '@material-ui/core'
 import StreetView from '../StreetView/streetView'
 import SelectionMap from '../SelectionMap/selectionMap'
 import NavDrawer from '../NavDrawer/navDrawer'
 import ResultDialog from '../ResultDialog/resultDialog'
-import { generateStreetViewLocation } from './game-utils'
+import generateStreetViewLocation from './generate-streetview-location.js'
+
+const StyledBackdrop = styled(Backdrop)({
+  zIndex: 3000,
+  color: '#fff'
+})
 
 export default class Game extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      initialLocation: new this.props.googleMapsApi.LatLng(0, 0)
+      initialLocation: new this.props.googleMapsApi.LatLng(0, 0),
+      showBackdrop: false
     }
-    this.generateLocation()
     this.streetView = createRef()
     this.resultDialog = createRef()
+    this.selectionMap = createRef()
   }
 
-  generateLocation () {
+  componentDidMount () {
+    this.resetLocation()
+  }
+
+  resetLocation () {
+    this.setState({
+      showBackdrop: true
+    })
     generateStreetViewLocation(this.props.googleMapsApi).then(location => {
       this.setState({
-        initialLocation: location
+        initialLocation: location,
+        showBackdrop: false
       })
+      this.selectionMap.current.reset()
     })
   }
 
-  calculateDistance (location1, location2) {
-    const distance = this.props.googleMapsApi.geometry.spherical.computeDistanceBetween(location1, location2)
-    return Math.round(distance)
-  }
-
   onLocationSelected (selectedLocation) {
-    const distance = this.calculateDistance(selectedLocation, this.state.initialLocation)
-    this.resultDialog.current.showResult(distance)
+    this.resultDialog.current.showResult(selectedLocation, this.state.initialLocation)
   }
 
   onPanToInitialLocation () {
@@ -39,7 +49,7 @@ export default class Game extends Component {
   }
 
   onRestart () {
-    this.generateLocation()
+    this.resetLocation()
   }
 
   render () {
@@ -47,8 +57,11 @@ export default class Game extends Component {
       <div>
         <NavDrawer panToInitialLocation={() => this.onPanToInitialLocation()} />
         <StreetView location={this.state.initialLocation} streetViewPanoramaRef={this.streetView} />
-        <SelectionMap locationSelected={location => this.onLocationSelected(location)} />
+        <SelectionMap ref={this.selectionMap} locationSelected={location => this.onLocationSelected(location)} />
         <ResultDialog ref={this.resultDialog} restart={() => this.onRestart()} />
+        <StyledBackdrop open={this.state.showBackdrop}>
+          <CircularProgress color='inherit' />
+        </StyledBackdrop>
       </div>
     )
   }

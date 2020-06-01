@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { LoadScript } from '@react-google-maps/api'
 import Game from '../src/components/Game/game'
 
+const libraries = ['geometry']
+
 export default function App () {
   // The API key appears in the call to the Google Maps API, and this is something enforced by Google.
   // So hiding it is futile.
@@ -18,7 +20,7 @@ export default function App () {
       <LoadScript
         id='script-loader'
         googleMapsApiKey={apiKey}
-        libraries={['geometry']}
+        libraries={libraries}
         onLoad={onLoad}
       >
         {googleMapsApi && <Game googleMapsApi={googleMapsApi} />}
