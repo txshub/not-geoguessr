@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "7282227a420fc13bdbab0867684a68eb",
+    "revision": "b30e6d5a57ad33ea4ee9ae33c8434995",
     "url": "/not-geoguessr/index.html"
   },
   {
