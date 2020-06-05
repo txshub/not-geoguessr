@@ -31,7 +31,8 @@ export default function StreetView (props) {
     zoomControl: true,
     zoomControlOptions: {
       position: window.google.maps.ControlPosition.LEFT_BOTTOM
-    }
+    },
+    zoom: 1.4
   }
 
   return (

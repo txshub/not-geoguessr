@@ -82,6 +82,7 @@ class SelectionMap extends Component {
       selected: false,
       selectedLocation: null
     })
+    this.googleMap.current.state.map.setZoom(2)
   }
 
   render () {
@@ -93,7 +94,7 @@ class SelectionMap extends Component {
             ref={this.googleMap}
             mapContainerStyle={mapContainerStyle}
             zoom={2}
-            center={{ lat: 0, lng: 0 }}
+            center={{ lat: 45, lng: 25 }}
             clickableIcons={false}
             options={mapOptions}
             onClick={event => this.handleMapClick(event)}
