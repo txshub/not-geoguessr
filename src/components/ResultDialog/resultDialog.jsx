@@ -49,6 +49,9 @@ class ResultDialog extends Component {
       initialLocation: { lat: 0, lng: 0 }
     }
     this.googleMap = createRef()
+
+    this.handleMapLoad = this.handleMapLoad.bind(this)
+    this.handleRestart = this.handleRestart.bind(this)
   }
 
   calculateDistance (location1, location2) {
@@ -66,7 +69,7 @@ class ResultDialog extends Component {
     })
   }
 
-  onMapLoad () {
+  handleMapLoad () {
     if (this.googleMap.current) {
       const bounds = new window.google.maps.LatLngBounds()
       bounds.extend(this.state.selectedLocation)
@@ -79,7 +82,7 @@ class ResultDialog extends Component {
     return distance >= 1000 ? distance / 1000 + ' km' : distance + ' m'
   }
 
-  onRestart (event) {
+  handleRestart (event) {
     this.setState({
       open: false
     })
@@ -98,7 +101,7 @@ class ResultDialog extends Component {
           <GoogleMap
             id='result-map'
             ref={this.googleMap}
-            onLoad={() => this.onMapLoad()}
+            onLoad={this.handleMapLoad}
             mapContainerStyle={mapContainerStyle}
             options={mapOptions}
             center={{ lat: 0, lng: 0 }}
@@ -120,7 +123,7 @@ class ResultDialog extends Component {
           </GoogleMap>
         </div>
         <DialogActions>
-          <Button onClick={() => this.onRestart()} color='primary'>
+          <Button onClick={this.handleRestart} color='primary'>
             New Round
           </Button>
         </DialogActions>

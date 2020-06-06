@@ -17,6 +17,10 @@ export default class Game extends Component {
     this.resultDialog = createRef()
     this.selectionMap = createRef()
     this.loadingBackdrop = createRef()
+
+    this.onPanToInitialLocation = this.onPanToInitialLocation.bind(this)
+    this.onLocationSelected = this.onLocationSelected.bind(this)
+    this.onRestart = this.onRestart.bind(this)
   }
 
   componentDidMount () {
@@ -49,10 +53,10 @@ export default class Game extends Component {
   render () {
     return (
       <div>
-        <NavDrawer panToInitialLocation={() => this.onPanToInitialLocation()} />
+        <NavDrawer panToInitialLocation={this.onPanToInitialLocation} />
         <StreetView location={this.state.initialLocation} streetViewPanoramaRef={this.streetView} />
-        <SelectionMap ref={this.selectionMap} locationSelected={location => this.onLocationSelected(location)} />
-        <ResultDialog ref={this.resultDialog} restart={() => this.onRestart()} />
+        <SelectionMap ref={this.selectionMap} locationSelected={this.onLocationSelected} />
+        <ResultDialog ref={this.resultDialog} restart={this.onRestart} />
         <LoadingBackdrop ref={this.loadingBackdrop} />
       </div>
     )

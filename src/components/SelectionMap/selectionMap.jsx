@@ -63,6 +63,9 @@ class SelectionMap extends Component {
       selectedLocation: null
     }
     this.googleMap = createRef()
+
+    this.handleMapClick = this.handleMapClick.bind(this)
+    this.handleLocationSelected = this.handleLocationSelected.bind(this)
   }
 
   handleMapClick (event) {
@@ -97,7 +100,7 @@ class SelectionMap extends Component {
             center={{ lat: 45, lng: 25 }}
             clickableIcons={false}
             options={mapOptions}
-            onClick={event => this.handleMapClick(event)}
+            onClick={this.handleMapClick}
           >
             <Marker
               visible={this.state.selected}
@@ -108,7 +111,7 @@ class SelectionMap extends Component {
           </GoogleMap>
         </div>
         <Button
-          onClick={() => this.handleLocationSelected()}
+          onClick={this.handleLocationSelected}
           style={{ backgroundColor: 'red' }}
           disabled={!this.state.selected}
         >
