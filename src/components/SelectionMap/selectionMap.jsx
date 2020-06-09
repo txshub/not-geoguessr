@@ -112,7 +112,7 @@ class SelectionMap extends Component {
             <Marker
               visible={this.state.selected}
               position={this.state.selectedLocation}
-              icon={{ url: markerIcon, scaledSize: { width: 32, height: 32 } }}
+              icon={{ url: markerIcon, scaledSize: { width: 48, height: 48 } }}
               clickable={false}
             />
           </GoogleMap>

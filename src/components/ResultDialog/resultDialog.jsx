@@ -50,10 +50,18 @@ const mapOptions = {
   }
 }
 
-const polylineOptions = {
-  strokeColor: '#f5b342',
-  strokeOpacity: 0.8,
-  strokeWeight: 2
+const foregroundPolyline = {
+  strokeColor: '#A5EB4B',
+  strokeOpacity: 1,
+  strokeWeight: 1,
+  zIndex: 51
+}
+
+const backgroundPolyline = {
+  strokeColor: '#212121',
+  strokeOpacity: 1,
+  strokeWeight: 2,
+  zIndex: 50
 }
 
 class ResultDialog extends Component {
@@ -129,7 +137,7 @@ class ResultDialog extends Component {
             >
               <Marker
                 position={this.state.selectedLocation}
-                icon={{ url: markerIcon, scaledSize: { width: 32, height: 32 } }}
+                icon={{ url: markerIcon, scaledSize: { width: 48, height: 48 } }}
               />
               <Marker
                 position={this.state.initialLocation}
@@ -137,7 +145,11 @@ class ResultDialog extends Component {
               />
               <Polyline
                 path={[this.state.selectedLocation, this.state.initialLocation]}
-                options={polylineOptions}
+                options={foregroundPolyline}
+              />
+              <Polyline
+                path={[this.state.selectedLocation, this.state.initialLocation]}
+                options={backgroundPolyline}
               />
             </GoogleMap>
           </div>
