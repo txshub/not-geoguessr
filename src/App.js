@@ -1,8 +1,18 @@
 import React, { useState } from 'react'
 import { LoadScript } from '@react-google-maps/api'
 import Game from '../src/components/Game/game'
+import { ThemeProvider, createMuiTheme } from '@material-ui/core'
 
 const libraries = ['geometry']
+
+const themeInstance = createMuiTheme({
+  background: '#212121',
+  text: '#FFFFFF',
+  primary: '#E76171',
+  secondary: '#A5EB4B',
+  backdrop: '#FFFFFF',
+  gradient: '-webkit-linear-gradient(45deg, rgba(214,73,96,1) 0%, rgba(165,235,75,1) 100%)'
+})
 
 export default function App () {
   // The API key appears in the call to the Google Maps API, and this is something enforced by Google.
@@ -16,7 +26,7 @@ export default function App () {
   }
 
   return (
-    <div className='App'>
+    <ThemeProvider theme={themeInstance}>
       <LoadScript
         id='script-loader'
         googleMapsApiKey={apiKey}
@@ -25,6 +35,6 @@ export default function App () {
       >
         {googleMapsApi && <Game googleMapsApi={googleMapsApi} />}
       </LoadScript>
-    </div>
+    </ThemeProvider>
   )
 }

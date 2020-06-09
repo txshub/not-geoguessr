@@ -4,7 +4,7 @@ import { Button, withStyles } from '@material-ui/core'
 
 const markerIcon = require('../../resources/marker.png')
 
-const useStyles = {
+const useStyles = theme => ({
   selectionMap: {
     display: 'flex',
     flexDirection: 'column',
@@ -29,10 +29,17 @@ const useStyles = {
     height: '100%',
     width: 'auto',
     border: 'solid',
-    borderColor: 'rgba(0, 0, 0, 1)',
+    borderColor: theme.background,
     marginBottom: '3px'
+  },
+  selectionButton: {
+    color: theme.background,
+    background: theme.secondary,
+    '&:hover': {
+      background: theme.gradient
+    }
   }
-}
+})
 
 const mapOptions = {
   disableDefaultUI: true,
@@ -111,8 +118,8 @@ class SelectionMap extends Component {
           </GoogleMap>
         </div>
         <Button
+          className={this.classes.selectionButton}
           onClick={this.handleLocationSelected}
-          style={{ backgroundColor: 'red' }}
           disabled={!this.state.selected}
         >
           Select Location
@@ -122,4 +129,4 @@ class SelectionMap extends Component {
   }
 }
 
-export default withStyles(useStyles)(SelectionMap)
+export default withStyles(useStyles, { withTheme: true })(SelectionMap)

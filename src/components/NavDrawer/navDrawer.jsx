@@ -3,14 +3,27 @@ import PropTypes from 'prop-types'
 import { Typography, Toolbar, Button, SwipeableDrawer, makeStyles } from '@material-ui/core'
 import { ExpandMore } from '@material-ui/icons'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   drawer: {
     display: 'flex'
   },
-  typography: {
+  toolbar: {
+    backgroundColor: theme.background
+  },
+  expandMore: {
+    color: theme.background
+  },
+  typographyContainer: {
     flexGrow: 1
   },
+  typography: {
+    width: 'fit-content',
+    background: theme.gradient,
+    '-webkit-background-clip': 'text',
+    '-webkit-text-fill-color': 'transparent'
+  },
   drawerButton: {
+    background: theme.gradient,
     position: 'absolute',
     width: 'fit-content',
     left: 0,
@@ -18,6 +31,8 @@ const useStyles = makeStyles({
     marginLeft: 'auto',
     marginRight: 'auto',
     padding: '0px',
+    borderTopLeftRadius: '0px',
+    borderTopRightRadius: '0px',
     zIndex: 1300,
     opacity: '70%',
     transition: '0.2s',
@@ -27,8 +42,17 @@ const useStyles = makeStyles({
     '&:hover': {
       opacity: '100%'
     }
+  },
+  initialLocationButon: {
+    color: theme.primary,
+    backgroundColor: theme.background,
+    transition: '0.3s',
+    '&:hover': {
+      color: theme.background,
+      backgroundColor: theme.primary
+    }
   }
-})
+}))
 
 export default function NavDrawer (props) {
   const classes = useStyles()
@@ -48,10 +72,9 @@ export default function NavDrawer (props) {
       <Button
         className={classes.drawerButton}
         onClick={toggleDrawer(true)}
-        color='inherit'
         variant='contained'
       >
-        <ExpandMore />
+        <ExpandMore className={classes.expandMore} />
       </Button>
       <SwipeableDrawer
         className={classes.drawer}
@@ -61,9 +84,11 @@ export default function NavDrawer (props) {
         onOpen={toggleDrawer(true)}
         swipeAreaWidth={50}
       >
-        <Toolbar>
-          <Typography className={classes.typography} variant='h4'>Not Geoguessr</Typography>
-          <Button onClick={handlePanToInitialLocation}>Go back to initial location</Button>
+        <Toolbar className={classes.toolbar}>
+          <div className={classes.typographyContainer}>
+            <Typography className={classes.typography} variant='h4'>Not Geoguessr</Typography>
+          </div>
+          <Button className={classes.initialLocationButon} onClick={handlePanToInitialLocation}>Go back to initial location</Button>
         </Toolbar>
       </SwipeableDrawer>
     </div>

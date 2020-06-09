@@ -5,13 +5,31 @@ import { Button, Dialog, DialogTitle, DialogActions, withStyles } from '@materia
 const markerIcon = require('../../resources/marker.png')
 const targetIcon = require('../../resources/target.png')
 
-const useStyles = {
+const useStyles = theme => ({
   mapContainer: {
     height: '400px',
     width: '500px',
     margin: '10px'
+  },
+  dialogContent: {
+    backgroundColor: theme.background
+  },
+  dialogTitle: {
+    width: 'fit-content',
+    background: theme.gradient,
+    '-webkit-background-clip': 'text',
+    '-webkit-text-fill-color': 'transparent'
+  },
+  newRoundButton: {
+    color: theme.primary,
+    backgroundColor: theme.background,
+    transition: '0.3s',
+    '&:hover': {
+      color: theme.background,
+      backgroundColor: theme.primary
+    }
   }
-}
+})
 
 const mapContainerStyle = {
   height: '100%',
@@ -96,40 +114,42 @@ class ResultDialog extends Component {
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id='alert-dialog-title'>{'You are ' + this.getDistanceString(this.state.distance) + ' off!'}</DialogTitle>
-        <div className={this.classes.mapContainer}>
-          <GoogleMap
-            id='result-map'
-            ref={this.googleMap}
-            onLoad={this.handleMapLoad}
-            mapContainerStyle={mapContainerStyle}
-            options={mapOptions}
-            center={{ lat: 0, lng: 0 }}
-            zoom={2}
-            clickableIcons={false}
-          >
-            <Marker
-              position={this.state.selectedLocation}
-              icon={{ url: markerIcon, scaledSize: { width: 32, height: 32 } }}
-            />
-            <Marker
-              position={this.state.initialLocation}
-              icon={{ url: targetIcon, scaledSize: { width: 32, height: 32 }, anchor: { x: 16, y: 16 } }}
-            />
-            <Polyline
-              path={[this.state.selectedLocation, this.state.initialLocation]}
-              options={polylineOptions}
-            />
-          </GoogleMap>
+        <div className={this.classes.dialogContent}>
+          <DialogTitle className={this.classes.dialogTitle} id='alert-dialog-title'>{'You are ' + this.getDistanceString(this.state.distance) + ' off!'}</DialogTitle>
+          <div className={this.classes.mapContainer}>
+            <GoogleMap
+              id='result-map'
+              ref={this.googleMap}
+              onLoad={this.handleMapLoad}
+              mapContainerStyle={mapContainerStyle}
+              options={mapOptions}
+              center={{ lat: 0, lng: 0 }}
+              zoom={2}
+              clickableIcons={false}
+            >
+              <Marker
+                position={this.state.selectedLocation}
+                icon={{ url: markerIcon, scaledSize: { width: 32, height: 32 } }}
+              />
+              <Marker
+                position={this.state.initialLocation}
+                icon={{ url: targetIcon, scaledSize: { width: 32, height: 32 }, anchor: { x: 16, y: 16 } }}
+              />
+              <Polyline
+                path={[this.state.selectedLocation, this.state.initialLocation]}
+                options={polylineOptions}
+              />
+            </GoogleMap>
+          </div>
+          <DialogActions>
+            <Button className={this.classes.newRoundButton} onClick={this.handleRestart} color='primary'>
+              New Round
+            </Button>
+          </DialogActions>
         </div>
-        <DialogActions>
-          <Button onClick={this.handleRestart} color='primary'>
-            New Round
-          </Button>
-        </DialogActions>
       </Dialog>
     )
   }
 }
 
-export default withStyles(useStyles)(ResultDialog)
+export default withStyles(useStyles, { withTheme: true })(ResultDialog)
