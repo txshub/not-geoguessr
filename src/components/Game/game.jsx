@@ -16,7 +16,6 @@ export default class Game extends Component {
       distance: 0
     }
     this.streetView = createRef()
-    this.resultDialog = createRef()
     this.selectionMap = createRef()
 
     this.onPanToInitialLocation = this.onPanToInitialLocation.bind(this)
