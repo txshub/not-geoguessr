@@ -11,12 +11,13 @@ export default class Game extends Component {
     super(props)
     this.state = {
       initialLocation: new this.props.googleMapsApi.LatLng(0, 0),
-      showBackdrop: false
+      showBackdrop: false,
+      showResult: false,
+      distance: 0
     }
     this.streetView = createRef()
     this.resultDialog = createRef()
     this.selectionMap = createRef()
-    this.loadingBackdrop = createRef()
 
     this.onPanToInitialLocation = this.onPanToInitialLocation.bind(this)
     this.onLocationSelected = this.onLocationSelected.bind(this)
@@ -28,18 +29,23 @@ export default class Game extends Component {
   }
 
   resetLocation () {
-    this.loadingBackdrop.current.toggleBackdrop(true)
+    this.setState({ showBackdrop: true })
     generateStreetViewLocation(this.props.googleMapsApi).then(location => {
       this.setState({
-        initialLocation: location
+        initialLocation: location,
+        showBackdrop: false
       })
-      this.loadingBackdrop.current.toggleBackdrop(false)
       this.selectionMap.current.reset()
     })
   }
 
   onLocationSelected (selectedLocation) {
-    this.resultDialog.current.showResult(selectedLocation, this.state.initialLocation)
+    const distance = window.google.maps.geometry.spherical.computeDistanceBetween(selectedLocation, this.state.initialLocation)
+    this.setState({
+      selectedLocation: selectedLocation,
+      showResult: true,
+      distance: Math.round(distance)
+    })
   }
 
   onPanToInitialLocation () {
@@ -47,6 +53,9 @@ export default class Game extends Component {
   }
 
   onRestart () {
+    this.setState({
+      showResult: false
+    })
     this.resetLocation()
   }
 
@@ -56,8 +65,14 @@ export default class Game extends Component {
         <NavDrawer panToInitialLocation={this.onPanToInitialLocation} />
         <StreetView location={this.state.initialLocation} streetViewPanoramaRef={this.streetView} />
         <SelectionMap ref={this.selectionMap} locationSelected={this.onLocationSelected} />
-        <ResultDialog ref={this.resultDialog} restart={this.onRestart} />
-        <LoadingBackdrop ref={this.loadingBackdrop} />
+        <ResultDialog
+          open={this.state.showResult}
+          initialLocation={this.state.initialLocation}
+          selectedLocation={this.state.selectedLocation}
+          distance={this.state.distance}
+          restart={this.onRestart}
+        />
+        <LoadingBackdrop open={this.state.showBackdrop} />
       </div>
     )
   }

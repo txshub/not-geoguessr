@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import { Typography, Toolbar, Button, SwipeableDrawer, makeStyles } from '@material-ui/core'
 import { ExpandMore } from '@material-ui/icons'
 
@@ -54,7 +53,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function NavDrawer (props) {
+export default function NavDrawer ({ panToInitialLocation }) {
   const classes = useStyles()
   const [drawerOpen, setDrawerOpen] = useState(false)
 
@@ -64,7 +63,7 @@ export default function NavDrawer (props) {
 
   const handlePanToInitialLocation = event => {
     setDrawerOpen(false)
-    props.panToInitialLocation()
+    panToInitialLocation()
   }
 
   return (
@@ -93,8 +92,4 @@ export default function NavDrawer (props) {
       </SwipeableDrawer>
     </div>
   )
-}
-
-NavDrawer.propTypes = {
-  panToInitialLocation: PropTypes.func
 }

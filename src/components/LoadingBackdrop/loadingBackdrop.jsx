@@ -1,35 +1,18 @@
-import React, { Component } from 'react'
-import { Backdrop, CircularProgress, withStyles } from '@material-ui/core'
+import React from 'react'
+import { Backdrop, CircularProgress, makeStyles } from '@material-ui/core'
 
-const useStyles = {
+const useStyles = makeStyles(theme => ({
   backdrop: {
     zIndex: 3000,
     color: '#fff'
   }
+}))
+
+export default function LoadingBackdrop ({ open }) {
+  const classes = useStyles()
+  return (
+    <Backdrop className={classes.backdrop} open={open}>
+      <CircularProgress color='inherit' />
+    </Backdrop>
+  )
 }
-
-class LoadingBackdrop extends Component {
-  constructor (props) {
-    super(props)
-    this.classes = props.classes
-    this.state = {
-      open: false
-    }
-  }
-
-  toggleBackdrop (open) {
-    this.setState({
-      open: open
-    })
-  }
-
-  render () {
-    return (
-      <Backdrop className={this.classes.backdrop} open={this.state.open}>
-        <CircularProgress color='inherit' />
-      </Backdrop>
-    )
-  }
-}
-
-export default withStyles(useStyles)(LoadingBackdrop)

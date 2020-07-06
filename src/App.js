@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { LoadScript } from '@react-google-maps/api'
 import Game from '../src/components/Game/game'
+import LoadingBackdrop from '../src/components/LoadingBackdrop/loadingBackdrop'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core'
 
 const libraries = ['geometry']
@@ -32,6 +33,7 @@ export default function App () {
         googleMapsApiKey={apiKey}
         libraries={libraries}
         onLoad={onLoad}
+        loadingElement={<LoadingBackdrop open />}
       >
         {googleMapsApi && <Game googleMapsApi={googleMapsApi} />}
       </LoadScript>

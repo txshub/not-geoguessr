@@ -68,38 +68,17 @@ class ResultDialog extends Component {
   constructor (props) {
     super(props)
     this.classes = props.classes
-    this.state = {
-      open: false,
-      distance: 0,
-      selectedLocation: { lat: 0, lng: 0 },
-      initialLocation: { lat: 0, lng: 0 }
-    }
     this.googleMap = createRef()
 
     this.handleMapLoad = this.handleMapLoad.bind(this)
     this.handleRestart = this.handleRestart.bind(this)
   }
 
-  calculateDistance (location1, location2) {
-    const distance = window.google.maps.geometry.spherical.computeDistanceBetween(location1, location2)
-    return Math.round(distance)
-  }
-
-  showResult (selectedLocation, initialLocation) {
-    const distance = this.calculateDistance(selectedLocation, initialLocation)
-    this.setState({
-      open: true,
-      distance: distance,
-      selectedLocation: selectedLocation,
-      initialLocation: initialLocation
-    })
-  }
-
   handleMapLoad () {
     if (this.googleMap.current) {
       const bounds = new window.google.maps.LatLngBounds()
-      bounds.extend(this.state.selectedLocation)
-      bounds.extend(this.state.initialLocation)
+      bounds.extend(this.props.selectedLocation)
+      bounds.extend(this.props.initialLocation)
       this.googleMap.current.state.map.fitBounds(bounds)
     }
   }
@@ -109,21 +88,18 @@ class ResultDialog extends Component {
   }
 
   handleRestart (event) {
-    this.setState({
-      open: false
-    })
     this.props.restart()
   }
 
   render () {
     return (
       <Dialog
-        open={this.state.open}
+        open={this.props.open}
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
       >
         <div className={this.classes.dialogContent}>
-          <DialogTitle className={this.classes.dialogTitle} id='alert-dialog-title'>{'You are ' + this.getDistanceString(this.state.distance) + ' off!'}</DialogTitle>
+          <DialogTitle className={this.classes.dialogTitle} id='alert-dialog-title'>{'You are ' + this.getDistanceString(this.props.distance) + ' off!'}</DialogTitle>
           <div className={this.classes.mapContainer}>
             <GoogleMap
               id='result-map'
@@ -136,19 +112,19 @@ class ResultDialog extends Component {
               clickableIcons={false}
             >
               <Marker
-                position={this.state.selectedLocation}
+                position={this.props.selectedLocation}
                 icon={{ url: markerIcon, scaledSize: { width: 48, height: 48 } }}
               />
               <Marker
-                position={this.state.initialLocation}
+                position={this.props.initialLocation}
                 icon={{ url: targetIcon, scaledSize: { width: 32, height: 32 }, anchor: { x: 16, y: 16 } }}
               />
               <Polyline
-                path={[this.state.selectedLocation, this.state.initialLocation]}
+                path={[this.props.selectedLocation, this.props.initialLocation]}
                 options={foregroundPolyline}
               />
               <Polyline
-                path={[this.state.selectedLocation, this.state.initialLocation]}
+                path={[this.props.selectedLocation, this.props.initialLocation]}
                 options={backgroundPolyline}
               />
             </GoogleMap>
