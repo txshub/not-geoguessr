@@ -1,28 +1,29 @@
 import React, { useState } from 'react'
 import { Typography, Toolbar, Button, SwipeableDrawer, makeStyles } from '@material-ui/core'
 import { ExpandMore } from '@material-ui/icons'
+import CustomColors from '../../resources/color-constants'
 
 const useStyles = makeStyles(theme => ({
   drawer: {
     display: 'flex'
   },
   toolbar: {
-    backgroundColor: theme.background
+    backgroundColor: CustomColors.DARK
   },
   expandMore: {
-    color: theme.background
+    color: CustomColors.DARK
   },
   typographyContainer: {
     flexGrow: 1
   },
   typography: {
     width: 'fit-content',
-    background: theme.gradient,
+    background: CustomColors.GRADIENT,
     '-webkit-background-clip': 'text',
     '-webkit-text-fill-color': 'transparent'
   },
   drawerButton: {
-    background: theme.gradient,
+    background: CustomColors.GRADIENT,
     position: 'absolute',
     width: 'fit-content',
     left: 0,
@@ -43,12 +44,12 @@ const useStyles = makeStyles(theme => ({
     }
   },
   initialLocationButon: {
-    color: theme.primary,
-    backgroundColor: theme.background,
+    color: CustomColors.ACCENT1,
+    backgroundColor: CustomColors.DARK,
     transition: '0.3s',
     '&:hover': {
-      color: theme.background,
-      backgroundColor: theme.primary
+      color: CustomColors.DARK,
+      backgroundColor: CustomColors.ACCENT1
     }
   }
 }))
@@ -87,7 +88,13 @@ export default function NavDrawer ({ panToInitialLocation }) {
           <div className={classes.typographyContainer}>
             <Typography className={classes.typography} variant='h4'>Not Geoguessr</Typography>
           </div>
-          <Button className={classes.initialLocationButon} onClick={handlePanToInitialLocation}>Go back to initial location</Button>
+          <Button
+            className={classes.initialLocationButon}
+            onClick={handlePanToInitialLocation}
+            color='primary'
+          >
+            Go back to initial location
+          </Button>
         </Toolbar>
       </SwipeableDrawer>
     </div>

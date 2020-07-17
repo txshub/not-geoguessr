@@ -1,6 +1,7 @@
 import React, { Component, createRef } from 'react'
 import { GoogleMap, Marker } from '@react-google-maps/api'
 import { Button, withStyles } from '@material-ui/core'
+import CustomColors from '../../resources/color-constants'
 
 const markerIcon = require('../../resources/marker.png')
 
@@ -13,15 +14,18 @@ const useStyles = theme => ({
     bottom: 0,
     height: '300px',
     width: '300px',
-    opacity: '50%',
+
     transition: 'all .2s linear',
     zIndex: 10,
     marginBottom: '20px',
     marginRight: '20px',
-    '&:hover': {
-      opacity: '100%',
-      height: '500px',
-      width: '500px'
+    '@media (hover: hover)': {
+      opacity: '50%',
+      '&:hover': {
+        opacity: '100%',
+        height: '500px',
+        width: '500px'
+      }
     }
   },
   mapContainer: {
@@ -29,14 +33,14 @@ const useStyles = theme => ({
     height: '100%',
     width: 'auto',
     border: 'solid',
-    borderColor: theme.background,
+    borderColor: CustomColors.DARK,
     marginBottom: '3px'
   },
   selectionButton: {
-    color: theme.background,
-    background: theme.secondary,
-    '&:hover': {
-      background: theme.gradient
+    '@media (hover: hover)': {
+      '&:hover': {
+        background: CustomColors.GRADIENT
+      }
     }
   }
 })
@@ -121,6 +125,8 @@ class SelectionMap extends Component {
           className={this.classes.selectionButton}
           onClick={this.handleLocationSelected}
           disabled={!this.state.selected}
+          variant='contained'
+          color='secondary'
         >
           Select Location
         </Button>

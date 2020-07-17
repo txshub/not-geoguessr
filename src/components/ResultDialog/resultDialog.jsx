@@ -1,6 +1,7 @@
 import React, { Component, createRef } from 'react'
 import { GoogleMap, Marker, Polyline } from '@react-google-maps/api'
 import { Button, Dialog, DialogTitle, DialogActions, withStyles } from '@material-ui/core'
+import CustomColors from '../../resources/color-constants'
 
 const markerIcon = require('../../resources/marker.png')
 const targetIcon = require('../../resources/target.png')
@@ -12,21 +13,21 @@ const useStyles = theme => ({
     margin: '10px'
   },
   dialogContent: {
-    backgroundColor: theme.background
+    backgroundColor: CustomColors.DARK
   },
   dialogTitle: {
     width: 'fit-content',
-    background: theme.gradient,
+    background: CustomColors.GRADIENT,
     '-webkit-background-clip': 'text',
     '-webkit-text-fill-color': 'transparent'
   },
   newRoundButton: {
-    color: theme.primary,
-    backgroundColor: theme.background,
+    color: CustomColors.ACCENT1,
+    backgroundColor: CustomColors.DARK,
     transition: '0.3s',
     '&:hover': {
-      color: theme.background,
-      backgroundColor: theme.primary
+      color: CustomColors.DARK,
+      backgroundColor: CustomColors.ACCENT1
     }
   }
 })
@@ -51,14 +52,14 @@ const mapOptions = {
 }
 
 const foregroundPolyline = {
-  strokeColor: '#A5EB4B',
+  strokeColor: CustomColors.ACCENT2,
   strokeOpacity: 1,
   strokeWeight: 1,
   zIndex: 51
 }
 
 const backgroundPolyline = {
-  strokeColor: '#212121',
+  strokeColor: CustomColors.DARK,
   strokeOpacity: 1,
   strokeWeight: 2,
   zIndex: 50

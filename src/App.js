@@ -3,16 +3,21 @@ import { LoadScript } from '@react-google-maps/api'
 import Game from '../src/components/Game/game'
 import LoadingBackdrop from '../src/components/LoadingBackdrop/loadingBackdrop'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core'
+import CustomColors from './resources/color-constants'
 
 const libraries = ['geometry']
 
 const themeInstance = createMuiTheme({
-  background: '#212121',
-  text: '#FFFFFF',
-  primary: '#E76171',
-  secondary: '#A5EB4B',
-  backdrop: '#FFFFFF',
-  gradient: '-webkit-linear-gradient(45deg, rgba(214,73,96,1) 0%, rgba(165,235,75,1) 100%)'
+  palette: {
+    type: 'dark',
+    action: {
+      disabledBackground: '#313131',
+      disabled: '#AAAAAA'
+    },
+    background: { default: CustomColors.DARK },
+    primary: { main: CustomColors.ACCENT1 },
+    secondary: { main: CustomColors.ACCENT2 }
+  }
 })
 
 export default function App () {

@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { GoogleMap, StreetViewPanorama } from '@react-google-maps/api'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -15,7 +14,7 @@ const streetViewMapStyles = {
   zIndex: 0
 }
 
-export default function StreetView (props) {
+export default function StreetView ({ streetViewPanoramaRef, location }) {
   useStyles()
 
   const streetViewOptions = {
@@ -23,6 +22,8 @@ export default function StreetView (props) {
     fullscreenControl: false,
     enableCloseButton: false,
     linksControl: false,
+    motionTracking: false,
+    motionTrackingControl: false,
     showRoadLabels: false,
     panControl: true,
     panControlOptions: {
@@ -43,16 +44,11 @@ export default function StreetView (props) {
       center={{ lat: 0, lng: 0 }}
     >
       <StreetViewPanorama
-        ref={props.streetViewPanoramaRef}
-        position={{ lat: props.location.lat(), lng: props.location.lng() }}
+        ref={streetViewPanoramaRef}
+        position={{ lat: location.lat(), lng: location.lng() }}
         visible
         options={streetViewOptions}
       />
     </GoogleMap>
   )
-}
-
-StreetView.propTypes = {
-  location: PropTypes.object,
-  streetViewPanoramaRef: PropTypes.object
 }
