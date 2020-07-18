@@ -1,7 +1,9 @@
 import React, { Component, createRef } from 'react'
 import { GoogleMap, Marker } from '@react-google-maps/api'
-import { Button, withStyles } from '@material-ui/core'
+import { Button, IconButton, withStyles } from '@material-ui/core'
+import { Fullscreen, FullscreenExit } from '@material-ui/icons'
 import CustomColors from '../../resources/color-constants'
+import MediaQuery from 'react-responsive'
 
 const markerIcon = require('../../resources/marker.png')
 
@@ -28,6 +30,18 @@ const useStyles = theme => ({
       }
     }
   },
+  smallMap: {
+    '@media not all and (hover: hover)': {
+      height: '300px',
+      width: '300px'
+    }
+  },
+  largeMap: {
+    '@media not all and (hover: hover)': {
+      height: '500px',
+      width: '500px'
+    }
+  },
   mapContainer: {
     position: 'relative',
     height: '100%',
@@ -41,6 +55,20 @@ const useStyles = theme => ({
       '&:hover': {
         background: CustomColors.GRADIENT
       }
+    }
+  },
+  expandMapButton: {
+    position: 'absolute',
+    backgroundColor: CustomColors.DARK,
+    top: 0,
+    left: 0,
+    marginTop: '2px',
+    marginLeft: '2px',
+    '&:focus': {
+      backgroundColor: CustomColors.DARK
+    },
+    '&:hover': {
+      backgroundColor: CustomColors.DARK
     }
   }
 })
@@ -65,18 +93,22 @@ const mapContainerStyle = {
   width: '100%'
 }
 
+const defaultMapCenter = { lat: 45, lng: 25 }
+
 class SelectionMap extends Component {
   constructor (props) {
     super(props)
     this.classes = props.classes
     this.state = {
       selected: false,
-      selectedLocation: null
+      selectedLocation: null,
+      isExpanded: false
     }
     this.googleMap = createRef()
 
     this.handleMapClick = this.handleMapClick.bind(this)
     this.handleLocationSelected = this.handleLocationSelected.bind(this)
+    this.handleExpand = this.handleExpand.bind(this)
   }
 
   handleMapClick (event) {
@@ -91,24 +123,32 @@ class SelectionMap extends Component {
     this.props.locationSelected(this.state.selectedLocation)
   }
 
+  handleExpand () {
+    this.setState(previousState => ({
+      isExpanded: !previousState.isExpanded
+    }))
+  }
+
   reset () {
     this.setState({
       selected: false,
-      selectedLocation: null
+      selectedLocation: null,
+      isExpanded: false
     })
     this.googleMap.current.state.map.setZoom(2)
+    this.googleMap.current.state.map.setCenter(defaultMapCenter)
   }
 
   render () {
     return (
-      <div className={this.classes.selectionMap}>
+      <div className={`${this.classes.selectionMap} ${this.state.isExpanded ? this.classes.largeMap : this.classes.smallMap}`}>
         <div className={this.classes.mapContainer}>
           <GoogleMap
             id='selection-map'
             ref={this.googleMap}
             mapContainerStyle={mapContainerStyle}
             zoom={2}
-            center={{ lat: 45, lng: 25 }}
+            center={defaultMapCenter}
             clickableIcons={false}
             options={mapOptions}
             onClick={this.handleMapClick}
@@ -120,6 +160,20 @@ class SelectionMap extends Component {
               clickable={false}
             />
           </GoogleMap>
+          <MediaQuery query='not all and (hover: hover)'>
+            <IconButton
+              className={this.classes.expandMapButton}
+              onClick={this.handleExpand}
+              color='secondary'
+              size='small'
+            >
+              {
+                this.state.isExpanded
+                  ? <FullscreenExit className={this.classes.expandIcon} />
+                  : <Fullscreen className={this.classes.expandIcon} />
+              }
+            </IconButton>
+          </MediaQuery>
         </div>
         <Button
           className={this.classes.selectionButton}

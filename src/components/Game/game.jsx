@@ -4,7 +4,7 @@ import SelectionMap from '../SelectionMap/selectionMap'
 import NavDrawer from '../NavDrawer/navDrawer'
 import ResultDialog from '../ResultDialog/resultDialog'
 import LoadingBackdrop from '../LoadingBackdrop/loadingBackdrop'
-import generateStreetViewLocation from './generate-streetview-location'
+import generateStreetViewLocation from '../../utils/generate-streetview-location'
 
 export default class Game extends Component {
   constructor (props) {
