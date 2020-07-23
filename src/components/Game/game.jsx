@@ -34,7 +34,6 @@ export default class Game extends Component {
         initialLocation: location,
         showBackdrop: false
       })
-      this.selectionMap.current.reset()
     })
   }
 
@@ -56,6 +55,7 @@ export default class Game extends Component {
       showResult: false
     })
     this.resetLocation()
+    this.selectionMap.current.reset()
   }
 
   render () {

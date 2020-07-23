@@ -1,6 +1,6 @@
 import React, { Component, createRef } from 'react'
 import { GoogleMap, Marker } from '@react-google-maps/api'
-import { Button, IconButton, withStyles } from '@material-ui/core'
+import { Button, IconButton, withStyles, Fab } from '@material-ui/core'
 import { Fullscreen, FullscreenExit } from '@material-ui/icons'
 import CustomColors from '../../resources/color-constants'
 import MediaQuery from 'react-responsive'
@@ -12,16 +12,13 @@ const useStyles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     position: 'absolute',
-    right: 0,
-    bottom: 0,
+    right: theme.spacing(1),
+    bottom: theme.spacing(2),
     height: '300px',
     width: '300px',
-
     transition: 'all .2s linear',
     zIndex: 10,
-    marginBottom: '20px',
-    marginRight: '20px',
-    '@media (hover: hover)': {
+    '@media (any-hover: hover) and (pointer: fine)': {
       opacity: '50%',
       '&:hover': {
         opacity: '100%',
@@ -31,15 +28,25 @@ const useStyles = theme => ({
     }
   },
   smallMap: {
-    '@media not all and (hover: hover)': {
+    '@media (any-hover: none), (pointer: coarse)': {
       height: '300px',
       width: '300px'
+    },
+    '@media (max-width: 600px)': {
+      display: 'none'
     }
   },
   largeMap: {
-    '@media not all and (hover: hover)': {
+    '@media (any-hover: none), (pointer: coarse)': {
       height: '500px',
       width: '500px'
+    },
+    '@media (max-width: 600px)': {
+      right: 0,
+      bottom: 0,
+      width: '100%',
+      height: '100%',
+      zIndex: 2000
     }
   },
   mapContainer: {
@@ -48,28 +55,40 @@ const useStyles = theme => ({
     width: 'auto',
     border: 'solid',
     borderColor: CustomColors.DARK,
-    marginBottom: '3px'
+    marginBottom: '3px',
+    '@media (max-width: 600px)': {
+      marginBottom: '0px',
+      border: 'none'
+    }
   },
   selectionButton: {
-    '@media (hover: hover)': {
+    '@media (any-hover: hover) and (pointer: fine)': {
       '&:hover': {
         background: CustomColors.GRADIENT
       }
+    },
+    '@media (max-width: 600px)': {
+      height: '50px',
+      borderRadius: '0px'
     }
   },
   expandMapButton: {
     position: 'absolute',
     backgroundColor: CustomColors.DARK,
-    top: 0,
-    left: 0,
-    marginTop: '2px',
-    marginLeft: '2px',
+    top: theme.spacing(1),
+    left: theme.spacing(1),
     '&:focus': {
       backgroundColor: CustomColors.DARK
     },
     '&:hover': {
       backgroundColor: CustomColors.DARK
     }
+  },
+  fab: {
+    position: 'absolute',
+    right: theme.spacing(2),
+    bottom: theme.spacing(2),
+    background: CustomColors.GRADIENT
   }
 })
 
@@ -120,6 +139,9 @@ class SelectionMap extends Component {
   }
 
   handleLocationSelected () {
+    this.setState({
+      isExpanded: false
+    })
     this.props.locationSelected(this.state.selectedLocation)
   }
 
@@ -132,15 +154,14 @@ class SelectionMap extends Component {
   reset () {
     this.setState({
       selected: false,
-      selectedLocation: null,
-      isExpanded: false
+      selectedLocation: null
     })
     this.googleMap.current.state.map.setZoom(2)
     this.googleMap.current.state.map.setCenter(defaultMapCenter)
   }
 
   render () {
-    return (
+    const selectionMap = (
       <div className={`${this.classes.selectionMap} ${this.state.isExpanded ? this.classes.largeMap : this.classes.smallMap}`}>
         <div className={this.classes.mapContainer}>
           <GoogleMap
@@ -160,7 +181,7 @@ class SelectionMap extends Component {
               clickable={false}
             />
           </GoogleMap>
-          <MediaQuery query='not all and (hover: hover)'>
+          <MediaQuery query='(any-hover: none), (pointer: coarse)'>
             <IconButton
               className={this.classes.expandMapButton}
               onClick={this.handleExpand}
@@ -184,6 +205,21 @@ class SelectionMap extends Component {
         >
           Select Location
         </Button>
+      </div>
+    )
+
+    const mapFab = (
+      <Fab className={this.classes.fab} onClick={this.handleExpand}>
+        <img src={markerIcon} alt='' width='48' height='48' />
+      </Fab>
+    )
+
+    return (
+      <div>
+        <MediaQuery maxDeviceWidth={600}>
+          {!this.state.isExpanded && mapFab}
+        </MediaQuery>
+        {selectionMap}
       </div>
     )
   }

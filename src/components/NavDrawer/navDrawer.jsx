@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     zIndex: 1300,
     opacity: '70%',
     transition: '0.2s',
-    '@media (pointer: coarse), (hover: none)': {
+    '@media (pointer: coarse), (any-hover: none)': {
       zIndex: 2
     },
     '&:hover': {

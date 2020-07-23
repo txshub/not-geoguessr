@@ -1,6 +1,6 @@
 import React from 'react'
 import { GoogleMap, StreetViewPanorama } from '@react-google-maps/api'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, useMediaQuery } from '@material-ui/core'
 
 const useStyles = makeStyles({
   '@global': {
@@ -9,13 +9,14 @@ const useStyles = makeStyles({
   }
 })
 
-const streetViewMapStyles = {
-  height: '100vh',
-  zIndex: 0
-}
-
 export default function StreetView ({ streetViewPanoramaRef, location }) {
   useStyles()
+  const isTouchScreen = useMediaQuery('(anyHover: none), (pointer: coarse)')
+
+  const streetViewMapStyles = {
+    height: isTouchScreen ? window.innerHeight : '100vh',
+    zIndex: 0
+  }
 
   const streetViewOptions = {
     addressControl: false,
