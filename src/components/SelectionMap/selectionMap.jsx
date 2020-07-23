@@ -87,7 +87,7 @@ const useStyles = theme => ({
   fab: {
     position: 'absolute',
     right: theme.spacing(2),
-    bottom: theme.spacing(2),
+    bottom: theme.spacing(4),
     background: CustomColors.GRADIENT
   }
 })
@@ -98,7 +98,7 @@ const mapOptions = {
   draggableCursor: 'crosshair',
   restriction: {
     latLngBounds: {
-      north: 85, // For some reason this is not 90 in google maps
+      north: 85,
       south: -85,
       west: -180,
       east: 180

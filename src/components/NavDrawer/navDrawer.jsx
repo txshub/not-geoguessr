@@ -8,7 +8,11 @@ const useStyles = makeStyles(theme => ({
     display: 'flex'
   },
   toolbar: {
-    backgroundColor: CustomColors.DARK
+    backgroundColor: CustomColors.DARK,
+    '@media (any-hover: none), (pointer: coarse)': {
+      flexDirection: 'column',
+      paddingBottom: '20px'
+    }
   },
   expandMore: {
     color: CustomColors.DARK
@@ -20,7 +24,10 @@ const useStyles = makeStyles(theme => ({
     width: 'fit-content',
     background: CustomColors.GRADIENT,
     '-webkit-background-clip': 'text',
-    '-webkit-text-fill-color': 'transparent'
+    '-webkit-text-fill-color': 'transparent',
+    '@media (any-hover: none), (pointer: coarse)': {
+      margin: '20px'
+    }
   },
   drawerButton: {
     background: CustomColors.GRADIENT,
