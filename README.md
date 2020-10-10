@@ -1,7 +1,6 @@
 # not-geoguessr
 
-[WORK IN PROGRESS] 
-- Curent in progress version available at https://txshub.github.io/not-geoguessr.
+- Curent version available at https://txshub.github.io/not-geoguessr.
 - Upcoming changes listed in the issues.
 
 My own implementation of Geoguessr.
