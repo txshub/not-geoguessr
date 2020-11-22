@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Backdrop, CircularProgress, makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
@@ -15,4 +16,8 @@ export default function LoadingBackdrop ({ open }) {
       <CircularProgress color='inherit' />
     </Backdrop>
   )
+}
+
+LoadingBackdrop.propTypes = {
+  open: PropTypes.func
 }

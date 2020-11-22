@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { Typography, Toolbar, Button, SwipeableDrawer, makeStyles } from '@material-ui/core'
 import { ExpandMore } from '@material-ui/icons'
 import CustomColors from '../../resources/color-constants'
@@ -106,4 +107,8 @@ export default function NavDrawer ({ panToInitialLocation }) {
       </SwipeableDrawer>
     </div>
   )
+}
+
+NavDrawer.propTypes = {
+  panToInitialLocation: PropTypes.func
 }

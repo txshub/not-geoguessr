@@ -1,4 +1,5 @@
 import React, { useRef } from 'react'
+import PropTypes from 'prop-types'
 import { GoogleMap, Marker, Polyline } from '@react-google-maps/api'
 import CustomColors from '../../resources/color-constants'
 
@@ -79,4 +80,9 @@ export default function ResultMap ({ initialLocation, selectedLocation }) {
       />
     </GoogleMap>
   )
+}
+
+ResultMap.propTypes = {
+  initialLocation: PropTypes.object,
+  selectedLocation: PropTypes.object
 }

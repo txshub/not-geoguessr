@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { GoogleMap, StreetViewPanorama } from '@react-google-maps/api'
 import { makeStyles, useMediaQuery } from '@material-ui/core'
 
@@ -52,4 +53,9 @@ export default function StreetView ({ streetViewPanoramaRef, location }) {
       />
     </GoogleMap>
   )
+}
+
+StreetView.propTypes = {
+  streetViewPanoramaRef: PropTypes.object,
+  location: PropTypes.object
 }

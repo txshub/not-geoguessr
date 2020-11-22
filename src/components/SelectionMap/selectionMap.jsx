@@ -1,4 +1,5 @@
 import React, { Component, createRef } from 'react'
+import PropTypes from 'prop-types'
 import { GoogleMap, Marker } from '@react-google-maps/api'
 import { Button, IconButton, withStyles, Fab } from '@material-ui/core'
 import { Fullscreen, FullscreenExit } from '@material-ui/icons'
@@ -223,6 +224,11 @@ class SelectionMap extends Component {
       </div>
     )
   }
+}
+
+SelectionMap.propTypes = {
+  classes: PropTypes.object,
+  locationSelected: PropTypes.func
 }
 
 export default withStyles(useStyles, { withTheme: true })(SelectionMap)

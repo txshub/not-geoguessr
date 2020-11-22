@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Button, Dialog, DialogTitle, DialogActions, makeStyles, useMediaQuery } from '@material-ui/core'
 import CustomColors from '../../resources/color-constants'
 import ResultMap from './resultMap'
@@ -71,4 +72,12 @@ export default function ResultDialog ({ distance, initialLocation, selectedLocat
       </DialogActions>
     </Dialog>
   )
+}
+
+ResultDialog.propTypes = {
+  distance: PropTypes.number,
+  initialLocation: PropTypes.object,
+  selectedLocation: PropTypes.object,
+  restart: PropTypes.func,
+  open: PropTypes.func
 }

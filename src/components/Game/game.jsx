@@ -1,4 +1,5 @@
 import React, { Component, createRef } from 'react'
+import PropTypes from 'prop-types'
 import StreetView from '../StreetView/streetView'
 import SelectionMap from '../SelectionMap/selectionMap'
 import NavDrawer from '../NavDrawer/navDrawer'
@@ -75,4 +76,8 @@ export default class Game extends Component {
       </div>
     )
   }
+}
+
+Game.propTypes = {
+  googleMapsApi: PropTypes.object
 }
