@@ -5,8 +5,7 @@ import { Button, IconButton, withStyles, Fab } from '@material-ui/core'
 import { Fullscreen, FullscreenExit } from '@material-ui/icons'
 import CustomColors from '../../resources/color-constants'
 import MediaQuery from 'react-responsive'
-
-const markerIcon = require('../../resources/marker.png')
+import markerIcon from '../../resources/marker.png'
 
 const useStyles = theme => ({
   selectionMap: {

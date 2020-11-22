@@ -79,5 +79,5 @@ ResultDialog.propTypes = {
   initialLocation: PropTypes.object,
   selectedLocation: PropTypes.object,
   restart: PropTypes.func,
-  open: PropTypes.func
+  open: PropTypes.bool
 }

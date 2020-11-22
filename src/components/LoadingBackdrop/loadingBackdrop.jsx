@@ -19,5 +19,5 @@ export default function LoadingBackdrop ({ open }) {
 }
 
 LoadingBackdrop.propTypes = {
-  open: PropTypes.func
+  open: PropTypes.bool
 }
