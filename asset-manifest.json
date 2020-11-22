@@ -1,19 +1,17 @@
 {
   "files": {
-    "main.js": "/not-geoguessr/static/js/main.dfef20cb.chunk.js",
-    "main.js.map": "/not-geoguessr/static/js/main.dfef20cb.chunk.js.map",
-    "runtime-main.js": "/not-geoguessr/static/js/runtime-main.95888916.js",
-    "runtime-main.js.map": "/not-geoguessr/static/js/runtime-main.95888916.js.map",
-    "static/js/2.f06d0d96.chunk.js": "/not-geoguessr/static/js/2.f06d0d96.chunk.js",
-    "static/js/2.f06d0d96.chunk.js.map": "/not-geoguessr/static/js/2.f06d0d96.chunk.js.map",
+    "main.js": "/not-geoguessr/static/js/main.40b9c815.chunk.js",
+    "main.js.map": "/not-geoguessr/static/js/main.40b9c815.chunk.js.map",
+    "runtime-main.js": "/not-geoguessr/static/js/runtime-main.33baca35.js",
+    "runtime-main.js.map": "/not-geoguessr/static/js/runtime-main.33baca35.js.map",
+    "static/js/2.69abcc21.chunk.js": "/not-geoguessr/static/js/2.69abcc21.chunk.js",
+    "static/js/2.69abcc21.chunk.js.map": "/not-geoguessr/static/js/2.69abcc21.chunk.js.map",
     "index.html": "/not-geoguessr/index.html",
-    "precache-manifest.54404e3b7f9328ef0ff7df822a746523.js": "/not-geoguessr/precache-manifest.54404e3b7f9328ef0ff7df822a746523.js",
-    "service-worker.js": "/not-geoguessr/service-worker.js",
-    "static/js/2.f06d0d96.chunk.js.LICENSE.txt": "/not-geoguessr/static/js/2.f06d0d96.chunk.js.LICENSE.txt"
+    "static/js/2.69abcc21.chunk.js.LICENSE.txt": "/not-geoguessr/static/js/2.69abcc21.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.95888916.js",
-    "static/js/2.f06d0d96.chunk.js",
-    "static/js/main.dfef20cb.chunk.js"
+    "static/js/runtime-main.33baca35.js",
+    "static/js/2.69abcc21.chunk.js",
+    "static/js/main.40b9c815.chunk.js"
   ]
 }
