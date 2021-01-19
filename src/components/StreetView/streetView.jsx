@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 import { GoogleMap, StreetViewPanorama } from '@react-google-maps/api'
 import { makeStyles, useMediaQuery } from '@material-ui/core'
@@ -10,7 +10,7 @@ const useStyles = makeStyles({
   }
 })
 
-export default function StreetView ({ streetViewPanoramaRef, location }) {
+function StreetView ({ streetViewPanoramaRef, location }) {
   useStyles()
   const isTouchScreen = useMediaQuery('(anyHover: none), (pointer: coarse)')
 
@@ -59,3 +59,5 @@ StreetView.propTypes = {
   streetViewPanoramaRef: PropTypes.object,
   location: PropTypes.object
 }
+
+export default memo(StreetView)
