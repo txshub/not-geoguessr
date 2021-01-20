@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.js": "/not-geoguessr/static/js/main.56a9b288.chunk.js",
-    "main.js.map": "/not-geoguessr/static/js/main.56a9b288.chunk.js.map",
+    "main.js": "/not-geoguessr/static/js/main.6265027b.chunk.js",
+    "main.js.map": "/not-geoguessr/static/js/main.6265027b.chunk.js.map",
     "runtime-main.js": "/not-geoguessr/static/js/runtime-main.33baca35.js",
     "runtime-main.js.map": "/not-geoguessr/static/js/runtime-main.33baca35.js.map",
-    "static/js/2.778acb15.chunk.js": "/not-geoguessr/static/js/2.778acb15.chunk.js",
-    "static/js/2.778acb15.chunk.js.map": "/not-geoguessr/static/js/2.778acb15.chunk.js.map",
+    "static/js/2.293e1aee.chunk.js": "/not-geoguessr/static/js/2.293e1aee.chunk.js",
+    "static/js/2.293e1aee.chunk.js.map": "/not-geoguessr/static/js/2.293e1aee.chunk.js.map",
     "index.html": "/not-geoguessr/index.html",
-    "static/js/2.778acb15.chunk.js.LICENSE.txt": "/not-geoguessr/static/js/2.778acb15.chunk.js.LICENSE.txt"
+    "static/js/2.293e1aee.chunk.js.LICENSE.txt": "/not-geoguessr/static/js/2.293e1aee.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.33baca35.js",
-    "static/js/2.778acb15.chunk.js",
-    "static/js/main.56a9b288.chunk.js"
+    "static/js/2.293e1aee.chunk.js",
+    "static/js/main.6265027b.chunk.js"
   ]
 }
