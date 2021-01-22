@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, memo } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { GoogleMap, Marker } from '@react-google-maps/api'
 import { Button, IconButton, Fab, makeStyles } from '@material-ui/core'
@@ -114,7 +114,7 @@ const mapContainerStyle = {
 
 const defaultMapCenter = { lat: 45, lng: 25 }
 
-function SelectionMap ({ locationSelected, endOfRound }) {
+export default function SelectionMap ({ locationSelected, endOfRound }) {
   const classes = useStyles()
   const [isSelected, setSelected] = useState(false)
   const [selectedLocation, setSelectedLocation] = useState()
@@ -126,7 +126,7 @@ function SelectionMap ({ locationSelected, endOfRound }) {
       setSelected(false)
       setSelectedLocation(null)
       googleMap.current.state.map.setZoom(2)
-      googleMap.current.state.map.setCenter(defaultMapCenter)
+      googleMap.current.state.map.panTo(defaultMapCenter)
     }
   }, [endOfRound])
 
@@ -212,5 +212,3 @@ SelectionMap.propTypes = {
   locationSelected: PropTypes.func,
   endOfRound: PropTypes.bool
 }
-
-export default memo(SelectionMap)
