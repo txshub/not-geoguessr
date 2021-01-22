@@ -1,13 +1,13 @@
-import React, { Component, createRef } from 'react'
+import React, { useEffect, useRef, useState, memo } from 'react'
 import PropTypes from 'prop-types'
 import { GoogleMap, Marker } from '@react-google-maps/api'
-import { Button, IconButton, withStyles, Fab } from '@material-ui/core'
+import { Button, IconButton, Fab, makeStyles } from '@material-ui/core'
 import { Fullscreen, FullscreenExit } from '@material-ui/icons'
 import CustomColors from '../../resources/color-constants'
 import MediaQuery from 'react-responsive'
 import markerIcon from '../../resources/marker.png'
 
-const useStyles = theme => ({
+const useStyles = makeStyles(theme => ({
   selectionMap: {
     display: 'flex',
     flexDirection: 'column',
@@ -90,7 +90,7 @@ const useStyles = theme => ({
     bottom: theme.spacing(4),
     background: CustomColors.GRADIENT
   }
-})
+}))
 
 const mapOptions = {
   disableDefaultUI: true,
@@ -114,120 +114,103 @@ const mapContainerStyle = {
 
 const defaultMapCenter = { lat: 45, lng: 25 }
 
-class SelectionMap extends Component {
-  constructor (props) {
-    super(props)
-    this.classes = props.classes
-    this.state = {
-      selected: false,
-      selectedLocation: null,
-      isExpanded: false
+function SelectionMap ({ locationSelected, endOfRound }) {
+  const classes = useStyles()
+  const [isSelected, setSelected] = useState(false)
+  const [selectedLocation, setSelectedLocation] = useState()
+  const [isExpanded, setExpanded] = useState(false)
+  const googleMap = useRef()
+
+  useEffect(() => {
+    if (!endOfRound && googleMap.current.state.map) {
+      setSelected(false)
+      setSelectedLocation(null)
+      googleMap.current.state.map.setZoom(2)
+      googleMap.current.state.map.setCenter(defaultMapCenter)
     }
-    this.googleMap = createRef()
+  }, [endOfRound])
 
-    this.handleMapClick = this.handleMapClick.bind(this)
-    this.handleLocationSelected = this.handleLocationSelected.bind(this)
-    this.handleExpand = this.handleExpand.bind(this)
+  const handleMapClick = e => {
+    setSelected(true)
+    setSelectedLocation(e.latLng)
+    googleMap.current.state.map.panTo(e.latLng)
   }
 
-  handleMapClick (event) {
-    this.setState({
-      selected: true,
-      selectedLocation: event.latLng
-    })
-    this.googleMap.current.state.map.panTo(event.latLng)
+  const handleLocationSelected = () => {
+    setExpanded(false)
+    locationSelected(selectedLocation)
   }
 
-  handleLocationSelected () {
-    this.setState({
-      isExpanded: false
-    })
-    this.props.locationSelected(this.state.selectedLocation)
+  const handleExpand = () => {
+    setExpanded(!isExpanded)
   }
 
-  handleExpand () {
-    this.setState(previousState => ({
-      isExpanded: !previousState.isExpanded
-    }))
-  }
-
-  reset () {
-    this.setState({
-      selected: false,
-      selectedLocation: null
-    })
-    this.googleMap.current.state.map.setZoom(2)
-    this.googleMap.current.state.map.setCenter(defaultMapCenter)
-  }
-
-  render () {
-    const selectionMap = (
-      <div className={`${this.classes.selectionMap} ${this.state.isExpanded ? this.classes.largeMap : this.classes.smallMap}`}>
-        <div className={this.classes.mapContainer}>
-          <GoogleMap
-            id='selection-map'
-            ref={this.googleMap}
-            mapContainerStyle={mapContainerStyle}
-            zoom={2}
-            center={defaultMapCenter}
-            clickableIcons={false}
-            options={mapOptions}
-            onClick={this.handleMapClick}
-          >
-            <Marker
-              visible={this.state.selected}
-              position={this.state.selectedLocation}
-              icon={{ url: markerIcon, scaledSize: { width: 48, height: 48 } }}
-              clickable={false}
-            />
-          </GoogleMap>
-          <MediaQuery query='(any-hover: none), (pointer: coarse)'>
-            <IconButton
-              className={this.classes.expandMapButton}
-              onClick={this.handleExpand}
-              color='secondary'
-              size='small'
-            >
-              {
-                this.state.isExpanded
-                  ? <FullscreenExit className={this.classes.expandIcon} />
-                  : <Fullscreen className={this.classes.expandIcon} />
-              }
-            </IconButton>
-          </MediaQuery>
-        </div>
-        <Button
-          className={this.classes.selectionButton}
-          onClick={this.handleLocationSelected}
-          disabled={!this.state.selected}
-          variant='contained'
-          color='secondary'
+  const selectionMap = (
+    <div className={`${classes.selectionMap} ${isExpanded ? classes.largeMap : classes.smallMap}`}>
+      <div className={classes.mapContainer}>
+        <GoogleMap
+          id='selection-map'
+          ref={googleMap}
+          mapContainerStyle={mapContainerStyle}
+          zoom={2}
+          center={defaultMapCenter}
+          clickableIcons={false}
+          options={mapOptions}
+          onClick={handleMapClick}
         >
-          Select Location
-        </Button>
-      </div>
-    )
-
-    const mapFab = (
-      <Fab className={this.classes.fab} onClick={this.handleExpand}>
-        <img src={markerIcon} alt='' width='48' height='48' />
-      </Fab>
-    )
-
-    return (
-      <div>
-        <MediaQuery maxDeviceWidth={600}>
-          {!this.state.isExpanded && mapFab}
+          <Marker
+            visible={isSelected}
+            position={selectedLocation}
+            icon={{ url: markerIcon, scaledSize: { width: 48, height: 48 } }}
+            clickable={false}
+          />
+        </GoogleMap>
+        <MediaQuery query='(any-hover: none), (pointer: coarse)'>
+          <IconButton
+            className={classes.expandMapButton}
+            onClick={handleExpand}
+            color='secondary'
+            size='small'
+          >
+            {
+              isExpanded
+                ? <FullscreenExit className={classes.expandIcon} />
+                : <Fullscreen className={classes.expandIcon} />
+            }
+          </IconButton>
         </MediaQuery>
-        {selectionMap}
       </div>
-    )
-  }
+      <Button
+        className={classes.selectionButton}
+        onClick={handleLocationSelected}
+        disabled={!isSelected}
+        variant='contained'
+        color='secondary'
+      >
+        Select Location
+      </Button>
+    </div>
+  )
+
+  const mapFab = (
+    <Fab className={classes.fab} onClick={handleExpand}>
+      <img src={markerIcon} alt='' width='48' height='48' />
+    </Fab>
+  )
+
+  return (
+    <div>
+      <MediaQuery maxDeviceWidth={600}>
+        {!isExpanded && mapFab}
+      </MediaQuery>
+      {selectionMap}
+    </div>
+  )
 }
 
 SelectionMap.propTypes = {
-  classes: PropTypes.object,
-  locationSelected: PropTypes.func
+  locationSelected: PropTypes.func,
+  endOfRound: PropTypes.bool
 }
 
-export default withStyles(useStyles, { withTheme: true })(SelectionMap)
+export default memo(SelectionMap)

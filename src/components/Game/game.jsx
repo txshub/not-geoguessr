@@ -13,8 +13,8 @@ export default function Game ({ googleMapsApi }) {
   const [showBackdrop, setShowBackdrop] = useState(true)
   const [showResult, setShowResult] = useState(false)
   const [distance, setDistance] = useState(0)
+  const [endOfRound, setEndOfRound] = useState(false)
   const streetView = useRef()
-  const selectionMap = useRef()
 
   useEffect(() => {
     generateStreetViewLocation(googleMapsApi).then(location => {
@@ -24,6 +24,7 @@ export default function Game ({ googleMapsApi }) {
   }, [])
 
   const onLocationSelected = selectedLocation => {
+    setEndOfRound(true)
     const distance = googleMapsApi.geometry.spherical.computeDistanceBetween(selectedLocation, initialLocation)
     setSelectedLocation(selectedLocation)
     setShowResult(true)
@@ -41,14 +42,14 @@ export default function Game ({ googleMapsApi }) {
       setInitialLocation(location)
       setShowBackdrop(false)
     })
-    selectionMap.current.reset()
+    setEndOfRound(false)
   }
 
   return (
     <div>
       <NavDrawer panToInitialLocation={onPanToInitialLocation} />
       <StreetView location={initialLocation} streetViewPanoramaRef={streetView} />
-      <SelectionMap ref={selectionMap} locationSelected={onLocationSelected} />
+      <SelectionMap locationSelected={onLocationSelected} endOfRound={endOfRound} />
       <ResultDialog
         open={showResult}
         initialLocation={initialLocation}
