@@ -10,4 +10,3 @@ export const Default = (props) => <LoadingBackdrop {...props} />
 Default.args = {
   open: true
 }
-Default.parameters = { docs: { page: null } }
