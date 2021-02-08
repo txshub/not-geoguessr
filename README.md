@@ -1,6 +1,6 @@
 # not-geoguessr - Inspired from Geoguessr.com
 
-### Curent version available at https://txshub.github.io/not-geoguessr.
+### DEMO available at https://txshub.github.io/not-geoguessr.
 ### Upcoming changes listed in the issues.
 
 ## Available Scripts
