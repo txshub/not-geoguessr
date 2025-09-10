@@ -14,7 +14,7 @@
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-responsive": "^8.1.1",
-    "react-scripts": "^4.0.0"
+    "react-scripts": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -53,11 +53,11 @@
   },
   "devDependencies": {
     "@storybook/addon-actions": "^6.1.15",
-    "@storybook/addon-essentials": "^6.1.15",
+    "@storybook/addon-essentials": "^6.5.16",
     "@storybook/addon-links": "^6.1.15",
     "@storybook/node-logger": "^6.1.15",
     "@storybook/preset-create-react-app": "^3.1.5",
-    "@storybook/react": "^6.1.15",
+    "@storybook/react": "^6.5.16",
     "eslint-plugin-react": "^7.21.5",
     "standard": "^14.3.4"
   }
